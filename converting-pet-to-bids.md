@@ -194,8 +194,88 @@ NewBidsDataSet/
 machine:Projects user$
 ```
 
+Ok great, but where do the imaging files go? And what format should they be in?
+
+Continue reading to find out.....
+
 
 ### Collecting and installing TPCCLIIB
+
+Since our raw imaging files are in ECAT format, we'll be using the ecat2nii tool it the TPCCLIIB since
+it's very handy at converting PET ECAT images into the more bids friendly nifti format. If you're imaging
+files are in `.IMG` you can use **<\insert converter>\** or if they're in dicom dcm2niix is an excellent tool to 
+transform `.dcm` files into `.nii`
+
+Before we proceed we will need to collect and install the ecat2nii tool from the TPCCLIIB (if you're on a non-posix based OS, I 
+suggest you use WSL (windows subsystem for linux), a container, or a VM if you want to continue following
+along.
+
+1) Visit https://gitlab.utu.fi/vesoik/tpcclib
+2) Download tpcclib via your download link of choice, ours is 
+   [here](https://gitlab.utu.fi/vesoik/tpcclib/-/archive/master/tpcclib-master.zip)
+3) Once downloaded extract and place ecat2nii in an appropriate place
+
+If you're using bash/posix step 3 will resemble something like the following:
+
+```bash
+machine:Downloads user$ unzip tpcclib-master.zip 
+machine:Dowloads user$ mv tpcclib-master /some/directory/you/are/fond/of/ # could be /usr/bin if you so choose
+```
+
+Now you can choose to add `tpcclib` to your path or not, in bash land we do the following:
+```bash
+machine:Downloads user$ echo "export PATH=$PATH:/some/directory/you/are/fond/of/tpcclib-master" > ~/.bashrc
+# reload bash shell and verify that library is available
+machine:Downloads user$ source ~/.bashrc
+machine:Downloads user$ ecat2nii
+  ecat2nii - tpcclib 0.7.6 (c) 2020 by Turku PET Centre
+
+  Converts PET images from ECAT 6.3 or 7 to NIfTI-1 format.
+  Conversion can also be done using ImageConverter (.NET application).
+
+  Image byte order is determined by the computer where the program is run.
+  NIfTI image format does not contain information on the frame times.
+  Frame times can be retrieved from SIF file, which can be created optionally.
+  SIF can also be created later using other software.
+
+  Usage: ecat2nii [Options] ecatfile(s)
+
+  Options:
+   -O=<output path>
+       Data directory for NIfTI files, if other than the current working path.
+   -dual
+       Save the image in dual file format (the header and voxel data in
+       separate files *.hdr and *.img); single file format (*.nii)
+       is the default.
+   -sif
+       SIF is saved with NIfTI; note that existing SIF will be overwritten.
+   -h, --help
+       Display usage information on standard output and exit.
+   -v, --version
+       Display version and compile information on standard output and exit.
+   -d[n], --debug[=n], --verbose[=n]
+       Set the level (n) of debugging messages and listings.
+   -q, --quiet
+       Suppress displaying normal results on standard output.
+   -s, --silent
+       Suppress displaying anything except errors.
+
+  Example:
+    ecat2nii *.v
+
+  See also: nii2ecat, nii_lhdr, ecat2ana, eframe, img2flat
+
+  Keywords: image, format conversion, ECAT, NIfTI
+
+  This program comes with ABSOLUTELY NO WARRANTY.
+  This is free software, and you are welcome to redistribute it under
+  GNU General Public License. Source codes are available in
+  https://gitlab.utu.fi/vesoik/tpcclib.git
+```
+
+Congrats, you've installed ecat2nii, you're one step closer to bidsifying your dataset.
+
+````
 && git clone
 && set path etc etc
 
