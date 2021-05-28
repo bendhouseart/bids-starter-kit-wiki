@@ -25,6 +25,28 @@ such as `ecat2nii` that will be used below to convert the imaging data from a PE
 - a [BIDS PET Template](https://github.com/bids-standard/bids-starter-kit/tree/master/templates)
 from this starter kit to initially populate and translate text/tabulature/csv blood data into
   BIDS PET compliant `.tsv` and `.json` files.
+
+### What we're starting with
+
+Here is the structure of our starting dataset:
+
+```bash
+OldNotBidsPETDataSet/
+├── MR_image
+│   ├── 24310.cropped.hdr
+│   ├── 24310.cropped.img
+│   └── 24310_rois.mat
+├── retest_scan_sub01
+│   ├── sub01_28_1b_PLASMA.txt
+│   └── sub01_28_1b_anon.v
+└── test_scan_sub01
+    ├── sub01_27_2d_PLASMA.txt
+    └── sub01_27_2d_anon.v
+
+3 directories, 7 files
+```
+By the end of this document our starting dataset will be fully bids compliant and resemble the dataset seen
+[here]() in the bids spec.
   
 ### Setting the layout
 
@@ -40,7 +62,7 @@ git clone git@github.com:bids-standard/bids-starter-kit.git
 
 The `templates/` folder in `bids-starter-kit/` contains a single subject and examples of every BIDS modality
 text and `.json` file for that subject. Additionally, there exists a `Short` and a `Full` example for each
-text/json file. The `Short` files contain all of the required BIDS fields for each modality and the `Full` 
+text/json file. The `Short` files contain only the required BIDS fields for each modality and the `Full` 
 example files contain *every* field included within the BIDS standard.
 
 ```bash
@@ -199,7 +221,7 @@ Ok great, but where do the imaging files go? And what format should they be in?
 Continue reading to find out.....
 
 
-### Collecting and installing TPCCLIIB
+### Collecting and installing TPCCLIB
 
 Since our raw imaging files are in ECAT format, we'll be using the ecat2nii tool it the TPCCLIIB since
 it's very handy at converting PET ECAT images into the more bids friendly nifti format. If you're imaging
@@ -224,7 +246,7 @@ machine:Dowloads user$ mv tpcclib-master /some/directory/you/are/fond/of/ # coul
 
 Now you can choose to add `tpcclib` to your path or not, in bash land we do the following:
 ```bash
-machine:Downloads user$ echo "export PATH=$PATH:/some/directory/you/are/fond/of/tpcclib-master" > ~/.bashrc
+machine:Downloads user$ echo "export PATH=$PATH:/some/directory/you/are/fond/of/tpcclib-master" >> ~/.bashrc
 # reload bash shell and verify that library is available
 machine:Downloads user$ source ~/.bashrc
 machine:Downloads user$ ecat2nii
@@ -273,7 +295,13 @@ machine:Downloads user$ ecat2nii
   https://gitlab.utu.fi/vesoik/tpcclib.git
 ```
 
-Congrats, you've installed ecat2nii, you're one step closer to bidsifying your dataset.
+Congrats, you've installed ecat2nii, you're one step closer to bidsifying your dataset
+
+Now, let's move one of our PET ecat images to it's final destination with ecat2nii that we just installed.
+
+```bash
+
+```
 
 ````
 && git clone
